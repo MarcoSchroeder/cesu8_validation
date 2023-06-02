@@ -36,7 +36,7 @@ void set_surrogate_data(byte* data, std::size_t len)
 void set_random_data(byte* data, std::size_t len)
 {
     auto len_copy = len;
-    std::srand(std::time(nullptr));
+    std::srand(210399);
     std::size_t i = 0;
     while(len >= 6) {
         int random_number = std::rand() % 4;
@@ -69,10 +69,6 @@ void set_random_data(byte* data, std::size_t len)
             i += 6;
         }
     }
-    byte* curr = data + i;
-    if(curr+len != data+len_copy) {
-        throw 5;
-    }
-    memset(curr, ASCII_BYTE, len);
-}
 
+    memset(data+i, ASCII_BYTE, len);
+}
