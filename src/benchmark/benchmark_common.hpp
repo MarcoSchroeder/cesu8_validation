@@ -3,6 +3,14 @@
 #include <cstdlib>
 #include <ctime>
 
+constexpr size_t ITERATIONS_SMALL = 1000000;
+constexpr size_t ITERATIONS = 2000;
+
+constexpr size_t SMALL_MIN = 1;
+constexpr size_t SMALL_MAX = 1 << 10;
+constexpr size_t BIG_MIN = 1 << 11;
+constexpr size_t BIG_MAX = 1 << 22;
+
 using byte = unsigned char;
 
 constexpr byte CONTINUATION_BYTE = 0x8F;
