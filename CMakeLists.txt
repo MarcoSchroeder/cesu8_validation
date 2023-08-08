@@ -88,7 +88,7 @@ target_link_libraries(
   GTest::gtest_main
 )
 
-# Collect Stats Binary
+# Collect Stats Executable
 add_executable(collect_cesu8_stats src/tools/cesu8_stats.cpp src/cesu8_scalar.cpp)
 target_compile_options(collect_cesu8_stats PRIVATE -std=c++17 -g -O0)
 
@@ -97,6 +97,14 @@ target_link_libraries(
   GTest::gtest_main
 )
 
+# Convert utf8 to cesu8 executable
+add_executable(utf8_to_cesu8 src/tools/utf8_to_cesu8.cpp src/cesu8_scalar.cpp)
+target_compile_options(utf8_to_cesu8 PRIVATE -std=c++17 -g -O0)
+
+target_link_libraries(
+  utf8_to_cesu8
+  GTest::gtest_main
+)
 
 
 include(GoogleTest)

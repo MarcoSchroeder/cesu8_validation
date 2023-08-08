@@ -1,4 +1,5 @@
 #include "cesu8_stats.hpp"
+#include "common.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -11,23 +12,7 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    const char* filename = argv[1];
-    std::ifstream file(filename, std::ios::in |std::ios::binary);
-
-    if (!file.is_open()) {
-        std::cerr << "Failed to open the file." << std::endl;
-        return 1;
-    }
-
-    std::vector<char> buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-
-    // Check if any errors occurred during reading
-    if (file.fail()) {
-        std::cerr << "An error occurred while reading the file." << std::endl;
-        return 1;
-    }
-
-    file.close();
+    std::vector<char> buffer = read_file_as_binary(argv[1]);
 
     Cesu8Stats stats = validate_and_collect_stats(reinterpret_cast<byte*>(buffer.data()), buffer.size());
     std::cout << "Buffer size:\t" << buffer.size() << std::endl;
