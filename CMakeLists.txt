@@ -79,7 +79,7 @@ target_link_libraries(
   benchmark::benchmark
 )
 
-# Collect Stats
+# Collect Stats Test
 add_executable(cesu8_stats_test src/test/test_stats.cpp src/cesu8_scalar.cpp)
 target_compile_options(cesu8_stats_test PRIVATE -std=c++17)
 
@@ -87,6 +87,17 @@ target_link_libraries(
   cesu8_stats_test
   GTest::gtest_main
 )
+
+# Collect Stats Binary
+add_executable(collect_cesu8_stats src/tools/cesu8_stats.cpp src/cesu8_scalar.cpp)
+target_compile_options(collect_cesu8_stats PRIVATE -std=c++17 -g -O0)
+
+target_link_libraries(
+  collect_cesu8_stats
+  GTest::gtest_main
+)
+
+
 
 include(GoogleTest)
 gtest_discover_tests(cesu8_validation_test_scalar)

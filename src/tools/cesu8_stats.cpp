@@ -12,23 +12,17 @@ int main(int argc, char* argv[])
     }
 
     const char* filename = argv[1];
-    std::ifstream file(filename, std::ios::binary);
+    std::ifstream file(filename, std::ios::in |std::ios::binary);
 
     if (!file.is_open()) {
         std::cerr << "Failed to open the file." << std::endl;
         return 1;
     }
 
-    std::vector<char> buffer;
-    const size_t initialBufferSize = 1024; // Initial buffer size
-    buffer.reserve(initialBufferSize);
+    std::vector<char> buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
-    char tempBuffer[initialBufferSize];
-    while (file.read(tempBuffer, sizeof(tempBuffer))) {
-        buffer.insert(buffer.end(), tempBuffer, tempBuffer + file.gcount());
-    }
-
-    if (!file.eof() && file.fail()) {
+    // Check if any errors occurred during reading
+    if (file.fail()) {
         std::cerr << "An error occurred while reading the file." << std::endl;
         return 1;
     }
