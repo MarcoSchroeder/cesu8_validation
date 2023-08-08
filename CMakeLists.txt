@@ -25,6 +25,7 @@ FetchContent_MakeAvailable(googletest googlebenchmark)
 project(cesu8_validation)
 enable_testing()
 
+# Validation Scalar
 add_executable(cesu8_validation_test_scalar src/test/test_scalar.cpp src/cesu8_scalar.cpp)
 target_compile_options(cesu8_validation_test_scalar PRIVATE -std=c++17 -O2)
 
@@ -33,6 +34,7 @@ target_link_libraries(
   GTest::gtest_main
 )
 
+# Validation SSE
 add_executable(cesu8_validation_test_sse src/test/test_SSE.cpp src/cesu8_SSE.cpp src/cesu8_scalar.cpp)
 target_compile_options(cesu8_validation_test_sse PRIVATE -std=c++17 -O2 -msse4.2)
 
@@ -41,6 +43,7 @@ target_link_libraries(
   GTest::gtest_main
 )
 
+# Validation AVX
 add_executable(cesu8_validation_test_avx src/test/test_AVX.cpp src/cesu8_AVX.cpp src/cesu8_scalar.cpp)
 target_compile_options(cesu8_validation_test_avx PRIVATE -std=c++17 -O2 -mavx2)
 
@@ -49,6 +52,7 @@ target_link_libraries(
   GTest::gtest_main
 )
 
+# Benchmark Scalar
 add_executable(cesu8_benchmark_scalar src/benchmark/benchmark_scalar.cpp src/cesu8_scalar.cpp)
 target_compile_options(cesu8_benchmark_scalar PRIVATE -std=c++17 -O3)
 
@@ -57,6 +61,7 @@ target_link_libraries(
   benchmark::benchmark
 )
 
+# Benchmark SSE
 add_executable(cesu8_benchmark_sse src/benchmark/benchmark_SSE.cpp src/cesu8_SSE.cpp src/cesu8_scalar.cpp)
 target_compile_options(cesu8_benchmark_sse PRIVATE -std=c++17 -O3 -msse4.2)
 
@@ -65,12 +70,22 @@ target_link_libraries(
   benchmark::benchmark
 )
 
+# Benchmark AVX
 add_executable(cesu8_benchmark_avx src/benchmark/benchmark_AVX.cpp src/cesu8_AVX.cpp src/cesu8_scalar.cpp)
 target_compile_options(cesu8_benchmark_avx PRIVATE -std=c++17 -O3 -mavx2)
 
 target_link_libraries(
   cesu8_benchmark_avx 
   benchmark::benchmark
+)
+
+# Collect Stats
+add_executable(cesu8_stats_test src/test/test_stats.cpp src/cesu8_scalar.cpp)
+target_compile_options(cesu8_stats_test PRIVATE -std=c++17)
+
+target_link_libraries(
+  cesu8_stats_test
+  GTest::gtest_main
 )
 
 include(GoogleTest)
