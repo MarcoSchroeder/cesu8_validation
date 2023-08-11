@@ -13,7 +13,8 @@ The test are located in `./build/`. There is a script in repo root that executes
 ```
 ./build/cesu8_validation_test_scalar
 ./build/cesu8_validation_test_sse
-./build/cesu8_validation_test_avx
+./build/cesu8_validation_test_avx2
+./build/cesu8_validation_test_avx512
 ./build/cesu8_stats_test
 ```
 
@@ -22,7 +23,8 @@ The benchmarks are located in `./build/` and must be run individually:
 ```
 ./build/cesu8_benchmark_scalar
 ./build/cesu8_benchmark_sse
-./build/cesu8_benchmark_avx
+./build/cesu8_benchmark_avx2
+./build/cesu8_benchmark_avx512
 ```
 
 ## Collecting Cesu8 stats
