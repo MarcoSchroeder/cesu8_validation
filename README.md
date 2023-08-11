@@ -5,17 +5,11 @@
 3. Build project `cmake --build build`
 
 ## Running tests
-The test are located in `./build/`. There is a script in repo root that executes all tests automatically, alternatively the tests can be run individually from the build directory
+The tests are located in `./build/` in a single executable.
 
-**Script running all tests**:  `./run_all_tests.sh`
-
-**Individually**:
+Run
 ```
-./build/cesu8_validation_test_scalar
-./build/cesu8_validation_test_sse
-./build/cesu8_validation_test_avx2
-./build/cesu8_validation_test_avx512
-./build/cesu8_stats_test
+./build/cesu8_validation_test
 ```
 
 ## Running benchmarks
