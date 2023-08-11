@@ -26,38 +26,11 @@ project(cesu8_validation)
 enable_testing()
 
 # Validation Scalar
-add_executable(cesu8_validation_test_scalar src/test/test_scalar.cpp src/cesu8_scalar.cpp)
-target_compile_options(cesu8_validation_test_scalar PRIVATE -std=c++17 -O2)
+add_executable(cesu8_validation_test src/test/test_main.cpp src/cesu8_scalar.cpp src/cesu8_SSE.cpp src/cesu8_AVX2.cpp src/cesu8_AVX512.cpp)
+target_compile_options(cesu8_validation_test PRIVATE -std=c++17 -O2 -msse4.2 -mavx2)
 
 target_link_libraries(
-  cesu8_validation_test_scalar
-  GTest::gtest_main
-)
-
-# Validation SSE
-add_executable(cesu8_validation_test_sse src/test/test_SSE.cpp src/cesu8_SSE.cpp src/cesu8_scalar.cpp)
-target_compile_options(cesu8_validation_test_sse PRIVATE -std=c++17 -O2 -msse4.2)
-
-target_link_libraries(
-  cesu8_validation_test_sse
-  GTest::gtest_main
-)
-
-# Validation AVX2
-add_executable(cesu8_validation_test_avx2 src/test/test_AVX2.cpp src/cesu8_AVX2.cpp src/cesu8_scalar.cpp)
-target_compile_options(cesu8_validation_test_avx2 PRIVATE -std=c++17 -O2 -mavx2)
-
-target_link_libraries(
-  cesu8_validation_test_avx2
-  GTest::gtest_main
-)
-
-# Validation AVX512
-add_executable(cesu8_validation_test_avx512 src/test/test_AVX512.cpp src/cesu8_AVX512.cpp src/cesu8_scalar.cpp)
-target_compile_options(cesu8_validation_test_avx512 PRIVATE -std=c++17 -O2 -mavx2)
-
-target_link_libraries(
-  cesu8_validation_test_avx512
+  cesu8_validation_test
   GTest::gtest_main
 )
 
@@ -97,15 +70,6 @@ target_link_libraries(
   benchmark::benchmark
 )
 
-# Collect Stats Test
-add_executable(cesu8_stats_test src/test/test_stats.cpp src/cesu8_scalar.cpp)
-target_compile_options(cesu8_stats_test PRIVATE -std=c++17)
-
-target_link_libraries(
-  cesu8_stats_test
-  GTest::gtest_main
-)
-
 # Collect Stats Executable
 add_executable(collect_cesu8_stats src/tools/cesu8_stats.cpp src/cesu8_scalar.cpp)
 target_compile_options(collect_cesu8_stats PRIVATE -std=c++17 -g -O0)
@@ -126,4 +90,4 @@ target_link_libraries(
 
 
 include(GoogleTest)
-gtest_discover_tests(cesu8_validation_test_scalar)
+gtest_discover_tests(cesu8_validation_test)

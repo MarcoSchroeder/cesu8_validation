@@ -1,26 +1,10 @@
 #include "../cesu8.hpp"
+#include "test_common.hpp"
 #include <gtest/gtest.h>
 
 #include <cstring>
 
-struct Cesu8 {
-        enum {
-                CONTINUATION_BYTE = 0x8F,
-                ASCII_BYTE        = 0x41,
-                TWO_BYTE_HEADER   = 0xCF,
-                THREE_BYTE_HEADER = 0xEF,
-                ILLEGAL_BYTE      = 0xF0,
-                // Cesu8 6-byte code point (surrogate pair) byte 1-6
-                SURROGATE_BYTE1 = 0xED,
-                SURROGATE_BYTE2 = 0xA0,
-                SURROGATE_BYTE3 = 0x8F,
-                SURROGATE_BYTE4 = 0xED,
-                SURROGATE_BYTE5 = 0xB0,
-                SURROGATE_BYTE6 = 0x8F
-        };
-};
-
-TEST(Cesu8Validation_AVX, TooShort)
+TEST(Cesu8Validation_AVX2, TooShort)
 {
         //Detect 'too short' code points, that is, multi-byte code points with not enough continuation bytes
         {
@@ -100,7 +84,7 @@ TEST(Cesu8Validation_AVX, TooShort)
         }
 }
 
-TEST(Cesu8Validation_AVX, TooLong)
+TEST(Cesu8Validation_AVX2, TooLong)
 {
         //Detect 'too long' code points, that is, unexpected continuation bytes not part of a multi-byte code point
         {
@@ -176,7 +160,7 @@ TEST(Cesu8Validation_AVX, TooLong)
         }
 }
 
-TEST(Cesu8Validation_AVX, IllegalHeader)
+TEST(Cesu8Validation_AVX2, IllegalHeader)
 {
         //Detect bytes with illegal header bits, that is, with a 1111'xxxx pattern
         {
@@ -233,7 +217,7 @@ TEST(Cesu8Validation_AVX, IllegalHeader)
         }
 }
 
-TEST(Cesu8Validation_AVX, IncompleteSurrogate)
+TEST(Cesu8Validation_AVX2, IncompleteSurrogate)
 {
         /*
     Detect incomplete surrogate pairs. Surrogate pairs are two consecutive three-byte code points
@@ -326,7 +310,7 @@ TEST(Cesu8Validation_AVX, IncompleteSurrogate)
         }
 }
 
-TEST(Cesu8Validation_AVX, Overlong)
+TEST(Cesu8Validation_AVX2, Overlong)
 {
         // Check value ranges
 
@@ -653,7 +637,7 @@ TEST(Cesu8Validation_AVX, Overlong)
         }
 }
 
-TEST(Cesu8Validation_AVX, ValidInput)
+TEST(Cesu8Validation_AVX2, ValidInput)
 {
         // Recognize valid encoding
         {
@@ -702,7 +686,7 @@ TEST(Cesu8Validation_AVX, ValidInput)
         }
 }
 
-TEST(Cesu8Validation_AVX, ValidInputContinuationInRemainder)
+TEST(Cesu8Validation_AVX2, ValidInputContinuationInRemainder)
 {
         // Recognize valid encoding with continuation bytes in remainder
         // {
