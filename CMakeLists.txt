@@ -43,12 +43,21 @@ target_link_libraries(
   GTest::gtest_main
 )
 
-# Validation AVX
-add_executable(cesu8_validation_test_avx src/test/test_AVX.cpp src/cesu8_AVX.cpp src/cesu8_scalar.cpp)
-target_compile_options(cesu8_validation_test_avx PRIVATE -std=c++17 -O2 -mavx2)
+# Validation AVX2
+add_executable(cesu8_validation_test_avx2 src/test/test_AVX2.cpp src/cesu8_AVX2.cpp src/cesu8_scalar.cpp)
+target_compile_options(cesu8_validation_test_avx2 PRIVATE -std=c++17 -O2 -mavx2)
 
 target_link_libraries(
-  cesu8_validation_test_avx
+  cesu8_validation_test_avx2
+  GTest::gtest_main
+)
+
+# Validation AVX512
+add_executable(cesu8_validation_test_avx512 src/test/test_AVX512.cpp src/cesu8_AVX512.cpp src/cesu8_scalar.cpp)
+target_compile_options(cesu8_validation_test_avx512 PRIVATE -std=c++17 -O2 -mavx2)
+
+target_link_libraries(
+  cesu8_validation_test_avx512
   GTest::gtest_main
 )
 
@@ -70,12 +79,21 @@ target_link_libraries(
   benchmark::benchmark
 )
 
-# Benchmark AVX
-add_executable(cesu8_benchmark_avx src/benchmark/benchmark_AVX.cpp src/cesu8_AVX.cpp src/cesu8_scalar.cpp)
-target_compile_options(cesu8_benchmark_avx PRIVATE -std=c++17 -O3 -mavx2)
+# Benchmark AVX2
+add_executable(cesu8_benchmark_avx2 src/benchmark/benchmark_AVX2.cpp src/cesu8_AVX2.cpp src/cesu8_scalar.cpp)
+target_compile_options(cesu8_benchmark_avx2 PRIVATE -std=c++17 -O3 -mavx2)
 
 target_link_libraries(
-  cesu8_benchmark_avx 
+  cesu8_benchmark_avx2 
+  benchmark::benchmark
+)
+
+# Benchmark AVX512
+add_executable(cesu8_benchmark_avx512 src/benchmark/benchmark_AVX512.cpp src/cesu8_AVX512.cpp src/cesu8_scalar.cpp)
+target_compile_options(cesu8_benchmark_avx512 PRIVATE -std=c++17 -O3 -mavx2)
+
+target_link_libraries(
+  cesu8_benchmark_avx512
   benchmark::benchmark
 )
 

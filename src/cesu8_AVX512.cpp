@@ -9,7 +9,7 @@ using namespace cesu8::impl;
 
 namespace cesu8 {
 
-bool is_valid_cesu8_AVX(byte const* str, std::size_t len)
+bool is_valid_cesu8_AVX512(byte const* str, std::size_t len)
 {
         static __m256i const lookup_table3 = _mm256_setr_epi8(
             CESU8_IMPLEMENTATION_LOOKUPTABLE_3_VALUES, CESU8_IMPLEMENTATION_LOOKUPTABLE_3_VALUES);

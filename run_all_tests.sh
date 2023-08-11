@@ -7,7 +7,8 @@ cd ./build
 tests=(
     "cesu8_validation_test_scalar"
     "cesu8_validation_test_sse"
-    "cesu8_validation_test_avx"
+    "cesu8_validation_test_avx2"
+    "cesu8_validation_test_avx512"
     "cesu8_stats_test"
 )
 

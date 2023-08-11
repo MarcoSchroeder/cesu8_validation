@@ -9,7 +9,7 @@ static void BM_ascii_data_small(benchmark::State& state)
         set_ascii_data(data, state.range(0));
         for (auto _ : state) {
                 for (size_t i = 0; i < ITERATIONS_SMALL; ++i) {
-                        cesu8::is_valid_cesu8_AVX(data, state.range(0));
+                        cesu8::is_valid_cesu8_AVX512(data, state.range(0));
                 }
         }
         delete[] data;
@@ -28,7 +28,7 @@ static void BM_ascii_data(benchmark::State& state)
         set_ascii_data(data, state.range(0));
         for (auto _ : state) {
                 for (size_t i = 0; i < ITERATIONS; ++i) {
-                        cesu8::is_valid_cesu8_AVX(data, state.range(0));
+                        cesu8::is_valid_cesu8_AVX512(data, state.range(0));
                 }
         }
         delete[] data;
@@ -47,7 +47,7 @@ static void BM_surrogate_data_small(benchmark::State& state)
         set_surrogate_data(data, state.range(0));
         for (auto _ : state) {
                 for (size_t i = 0; i < ITERATIONS_SMALL; ++i) {
-                        cesu8::is_valid_cesu8_AVX(data, state.range(0));
+                        cesu8::is_valid_cesu8_AVX512(data, state.range(0));
                 }
         }
         delete[] data;
@@ -66,7 +66,7 @@ static void BM_surrogate_data(benchmark::State& state)
         set_surrogate_data(data, state.range(0));
         for (auto _ : state) {
                 for (size_t i = 0; i < ITERATIONS; ++i) {
-                        cesu8::is_valid_cesu8_AVX(data, state.range(0));
+                        cesu8::is_valid_cesu8_AVX512(data, state.range(0));
                 }
         }
         delete[] data;
@@ -85,7 +85,7 @@ static void BM_random_data_small(benchmark::State& state)
         set_random_data(data, state.range(0));
         for (auto _ : state) {
                 for (size_t i = 0; i < ITERATIONS_SMALL; ++i) {
-                        cesu8::is_valid_cesu8_AVX(data, state.range(0));
+                        cesu8::is_valid_cesu8_AVX512(data, state.range(0));
                 }
         }
         delete[] data;
@@ -104,7 +104,7 @@ static void BM_random_data(benchmark::State& state)
         set_random_data(data, state.range(0));
         for (auto _ : state) {
                 for (size_t i = 0; i < ITERATIONS; ++i) {
-                        cesu8::is_valid_cesu8_AVX(data, state.range(0));
+                        cesu8::is_valid_cesu8_AVX512(data, state.range(0));
                 }
         }
         delete[] data;
