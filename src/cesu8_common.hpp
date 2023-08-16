@@ -28,6 +28,8 @@ constexpr bool is_overlong_c3(byte b1, byte b2) { return (b1 == 0xE0) && (b2 <= 
 constexpr bool is_ed(byte b) { return b == 0xED; }
 constexpr bool is_a_or_b(byte b) { return (b & 0xE0) == 0xA0; }
 constexpr bool is_ed_a(byte b1, byte b2) { return is_ed(b1) && ((b2 & 0xF0) == 0xA0); }
+constexpr bool is_ed_a_c0(byte b1, byte b2, byte b3) { return is_ed_a(b1, b2) && is_c0(b3); }
+
 constexpr bool is_ed_b_c0(byte b1, byte b2, byte b3)
 {
         return is_ed(b1) && ((b2 & 0xF0) == 0xB0) && (is_c0(b3));
