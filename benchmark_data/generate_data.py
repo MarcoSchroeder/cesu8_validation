@@ -54,7 +54,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('chars', choices=['ascii', 'hangul', 'random'], help='Types of code points that should be generated')
     parser.add_argument('-o', help='Relative path to output directory', required=True)
-    parser.add_argument('-min', default=9, help='Min power of 2 for length')
+    parser.add_argument('-min', default=6, help='Min power of 2 for length')
     parser.add_argument('-max', default=22, help='Max power of 2 for length')
     args = parser.parse_args()
 

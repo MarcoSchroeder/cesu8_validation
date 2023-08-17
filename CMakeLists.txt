@@ -62,13 +62,13 @@ target_link_libraries(
 )
 
 # Benchmark AVX512
-#add_executable(cesu8_benchmark_avx512 src/benchmark/benchmark_AVX512.cpp src/cesu8_AVX512.cpp src/cesu8_scalar.cpp)
-#target_compile_options(cesu8_benchmark_avx512 PRIVATE -std=c++17 -O3 -mavx2)
+add_executable(cesu8_benchmark_avx512 src/benchmark/benchmark_AVX512.cpp src/cesu8_AVX512.cpp src/cesu8_scalar.cpp)
+target_compile_options(cesu8_benchmark_avx512 PRIVATE -std=c++17 -O3 -mavx512f -mavx512bw)
 
-#target_link_libraries(
-#  cesu8_benchmark_avx512
-#  benchmark::benchmark
-#)
+target_link_libraries(
+  cesu8_benchmark_avx512
+  benchmark::benchmark
+)
 
 # Collect Stats Executable
 add_executable(collect_cesu8_stats src/tools/cesu8_stats.cpp src/cesu8_scalar.cpp)
