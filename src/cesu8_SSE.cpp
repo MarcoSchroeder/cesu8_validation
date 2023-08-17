@@ -17,13 +17,6 @@ static __m128i extract_high_nibbles(__m128i a)
     return high_nibbles;
 }
 
-static __m128i extract_low_nibbles(__m128i a)
-{
-    __m128i low_nibble_mask = _mm_set1_epi8(0x0F);
-    __m128i low_nibbles     = _mm_and_si128(a, low_nibble_mask);
-    return low_nibbles;
-}
-
 bool is_valid_cesu8_SSE(byte const* str, std::size_t len)
 {
     // clang-format off
@@ -42,18 +35,18 @@ bool is_valid_cesu8_SSE(byte const* str, std::size_t len)
         0x0                                             // 1111'xxxx (Illegal header)
     );
     static __m128i const table1_hi = _mm_setr_epi8(
-        0x5, 0x5, 0x5, 0x5, 0x5, 0x5, 0x5, 0x5,
-        0xD, 0xD, 0xD, 0xD,
-        0x1D, 0xD,
-        0xE7,
-        0x0
+        0x5, 0x5, 0x5, 0x5, 0x5, 0x5, 0x5, 0x5,         // 0|xxx'xxxx (C1)
+        0xD, 0xD, 0xD, 0xD,                             // 10|xx'xxxx (CB)
+        0x1D, 0xD,                                      // 110|x'xxxx (C2)
+        0xE7,                                           // 1110|'xxxx (C3)
+        0x0                                             // 1111'xxxx (Illegal header)
     );
     static __m128i const table1_lo = _mm_setr_epi8(
-        0x3F, 0x1F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F,
-        0x0F, 0x0F, 0x0F, 0x0F,
-        0x0F, 0xCF,
-        0x0F,
-        0x0F
+        0x3F, 0x1F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, 0x0F, // 0|xxx'xxxx (C1)
+        0x0F, 0x0F, 0x0F, 0x0F,                         // 10|xx'xxxx (CB)
+        0x0F, 0xCF,                                     // 110|x'xxxx (C2)
+        0x0F,                                           // 1110|'xxxx (C3)
+        0x0F                                            // 1111'xxxx (Illegal header)
     );
     // clang-format on
 
@@ -69,22 +62,22 @@ bool is_valid_cesu8_SSE(byte const* str, std::size_t len)
         // Extract header bits
         __m128i nibbles3    = extract_high_nibbles(bytes3);
         __m128i nibbles2    = extract_high_nibbles(bytes2);
-        __m128i nibbles1_lo = extract_low_nibbles(bytes1);
         __m128i nibbles1_hi = extract_high_nibbles(bytes1);
+        __m128i nibbles1_lo = _mm_and_si128(bytes1, _mm_set1_epi8(0x0F));
 
         // Table lookup
         __m128i result3    = _mm_shuffle_epi8(table3, nibbles3);
         __m128i result2    = _mm_shuffle_epi8(table2, nibbles2);
-        __m128i result1_lo = _mm_shuffle_epi8(table1_lo, nibbles1_lo);
         __m128i result1_hi = _mm_shuffle_epi8(table1_hi, nibbles1_hi);
+        __m128i result1_lo = _mm_shuffle_epi8(table1_lo, nibbles1_lo);
 
         // Detect error conditions A) Too short, B) Too long, D) Overlong
-        __m128i temp = _mm_and_si128(result2, _mm_and_si128(result1_hi, result1_lo));
-        __m128i errors_abd = _mm_and_si128(temp, result3);
+        __m128i tmp = _mm_and_si128(result2, _mm_and_si128(result1_hi, result1_lo));
+        __m128i errors_abd = _mm_and_si128(tmp, result3);
 
         // Detect error condition E) Incomplete surrogate
-        __m128i hi_surrogates = _mm_and_si128(temp, _mm_set1_epi8(0x80));
-        __m128i lo_surrogates = _mm_and_si128(temp, _mm_set1_epi8(0x40));
+        __m128i hi_surrogates = _mm_and_si128(tmp, _mm_set1_epi8(0x80));
+        __m128i lo_surrogates = _mm_and_si128(tmp, _mm_set1_epi8(0x40));
         lo_surrogates         = _mm_slli_epi16(lo_surrogates, 1);
         __m128i shifted_hi_surrogates =
             _mm_alignr_epi8(hi_surrogates, prev_hi_surrogates, 13);
