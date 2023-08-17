@@ -23,7 +23,7 @@ if __name__ == '__main__':
     print(f'Relative path to benchmark directory: "{rel_path}"')
     print(f'Absolute path to benchmark directory: "{abs_path}"')
 
-    filenames = ['scalar.csv', 'sse.csv', 'avx.csv']
+    filenames = ['scalar.csv', 'sse.csv', 'avx2.csv', 'avx512.csv']
     all_csvs = {}
     print(f'Trying to read {filenames} from benchmark directory')
     for filename in filenames:
@@ -35,11 +35,13 @@ if __name__ == '__main__':
     bm_names = [row[0] for row in all_csvs['scalar.csv']]
     scalar_cpu_times = [float(row[3]) for row in all_csvs['scalar.csv']]
     sse_cpu_times = [float(row[3]) for row in all_csvs['sse.csv']]
-    avx_cpu_times = [float(row[3]) for row in all_csvs['avx.csv']]
+    avx_cpu_times = [float(row[3]) for row in all_csvs['avx2.csv']]
+    avx512_cpu_times = [float(row[3]) for row in all_csvs['avx512.csv']]
 
     sse_to_scalar = [scalar/sse for scalar, sse in zip(scalar_cpu_times, sse_cpu_times)]
     avx_to_scalar = [scalar/avx for scalar, avx in zip(scalar_cpu_times, avx_cpu_times)]
+    avx512_to_scalar = [scalar/avx512 for scalar, avx512 in zip(scalar_cpu_times, avx512_cpu_times)]
 
-    print('\n\nBenchmark Name, Scalar CPU Time, SSE CPU Time, Scalar/SSE , Scalar/AVX')
+    print('\n\nBenchmark Name, Scalar CPU Time, SSE CPU Time, Scalar/SSE , Scalar/AVX, Scalar/AVX512')
     for i, bm_name in enumerate(bm_names):
-        print(f'{i} : {bm_name} : {scalar_cpu_times[i]}, {sse_cpu_times[i]}, {avx_cpu_times[i]}, {sse_to_scalar[i]:.2f}, {avx_to_scalar[i]:.2f}')
+        print(f'{i} : {bm_name} : {scalar_cpu_times[i]}, {sse_cpu_times[i]}, {avx_cpu_times[i]}, {sse_to_scalar[i]:.2f}, {avx_to_scalar[i]:.2f}, {avx512_to_scalar[i]:.2f}')
