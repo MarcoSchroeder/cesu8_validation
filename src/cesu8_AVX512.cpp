@@ -1,9 +1,13 @@
+#include "simd_hguards.hpp"
+
 #include "cesu8.hpp"
 #include "cesu8_common.hpp"
 
 #include <immintrin.h>
 
 #include <cstdint>
+
+#ifdef CESU8_VALIDATION_AVX512_IMPLEMENTATION
 
 using namespace cesu8::impl;
 
@@ -122,3 +126,5 @@ bool is_valid_cesu8_AVX512(byte const* str, std::size_t len)
 }
 
 } // namespace cesu8
+
+#endif // #ifdef CESU8_VALIDATION_AVX512_IMPLEMENTATION
