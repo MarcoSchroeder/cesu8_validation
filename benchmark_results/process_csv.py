@@ -32,7 +32,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('input_dir', help='Directory containing benchmark results as .csv files')
     parser.add_argument('-o', help='Relative path to output directory', required=True)
-    parser.add_argument('--skip512', help='Skip processing of AVX512 results', required=True)
+    parser.add_argument('--skip512', help='Skip processing of AVX512 results', action='store_true')
     args = parser.parse_args()
     input_dir_abs_path = os.path.abspath(args.input_dir)
     output_dir_abs_path = os.path.abspath(args.o)
