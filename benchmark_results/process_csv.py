@@ -12,7 +12,8 @@ def extract_cpu_time(data):
     return [row[3] for row in data]
 
 def extract_bytes_per_second(data):
-    return [row[5] for row in data]
+    ret = [row[6] for row in data]
+    return ret
 
 def calc_speedup(baseline: [str], new: [str]) -> [float]:
     baseline_float = [float(x) for x in baseline]
