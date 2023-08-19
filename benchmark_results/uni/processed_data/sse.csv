@@ -1,4 +1,4 @@
-length,scalar,sse,avx2,avx512,sse_speedup,avx2_speedup,avx512_speedup
+length,ascii,hangul,random
 64,80.0249,80.0513,79.9469
 128,137.18,136.986,136.982
 256,251.47,250.994,250.899

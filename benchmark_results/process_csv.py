@@ -119,16 +119,16 @@ if __name__ == '__main__':
 
     # Scalar data
     path_scalar = os.path.join(output_dir_abs_path, 'scalar.csv')
-    write_file(path_scalar, header_character_type, scalar_data)
+    write_file(path_scalar, header_instruction_set, scalar_data)
 
     # SSE
     path_sse = os.path.join(output_dir_abs_path, 'sse.csv')
-    write_file(path_sse, header_character_type, sse_data)
+    write_file(path_sse, header_instruction_set, sse_data)
 
     # AVX-2
     path_avx2 = os.path.join(output_dir_abs_path, 'avx2.csv')
-    write_file(path_avx2, header_character_type, avx2_data)
+    write_file(path_avx2, header_instruction_set, avx2_data)
 
     # AVX-512
     path_avx512 = os.path.join(output_dir_abs_path, 'avx512.csv')
-    write_file(path_avx512, header_character_type, avx512_data)
+    write_file(path_avx512, header_instruction_set, avx512_data)
