@@ -93,7 +93,7 @@ if __name__ == '__main__':
                          avx2_cpu_time_random, avx512_cpu_time_random, sse_speedup_random,
                          avx2_speedup_random, avx512_speedup_random)
     else:
-        header_character_type = ['length', 'scalar', 'sse', 'avx2', 'avx512',
+        header_character_type = ['length', 'scalar', 'sse', 'avx2',
                                 'sse_speedup', 'avx2_speedup']
         ascii_data = zip(lengths, scalar_cpu_time_ascii, sse_cpu_time_ascii,
                          avx2_cpu_time_ascii, sse_speedup_ascii,
