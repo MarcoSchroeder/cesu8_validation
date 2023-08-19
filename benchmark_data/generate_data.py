@@ -26,33 +26,35 @@ def generate_random_hangul_sequence(length: int) -> bytearray:
     ret.extend(ascii_ext)
     return ret
 
-def generate_random_random_sequence(length: int) -> bytearray:
-    ret = bytearray()
-    bytes_created = 0
-    while length-bytes_created >= 6:
-        x = random.randint(1, 4)
-        if x == 1: # 1-unit code point
-            ret.extend([0])
-            bytes_created += 1
-        elif x == 2: # 2-unit code point
-            ret.extend([0b1100_0010, 0b1000_0000])
-            bytes_created += 2
-        elif x == 3: # 3-unit code point
-            ret.extend([0b1110_0000, 0b1010_0000, 0b1000_0000])
-            bytes_created += 3
+def generate_random_10pct_non_ascii_sequence(length: int) -> bytearray:
+    bytes = [random.randint(0, 127) for _ in range(length)]
+    i = 0
+    while i+6 <= length:
+        x = random.randint(1, 3)
+        if x == 1: # 2-unit code point
+            bytes[i] = 0b1100_0010
+            bytes[i+1] = 0b1000_0000
+        elif x == 2: # 3-unit code point
+            bytes[i] = 0b1110_0000
+            bytes[i+1] = 0b1010_0000
+            bytes[i+2] = 0b1000_0000
         else: # surrogate pair
-            ret.extend([0b1110_1101, 0b1010_0000, 0b1000_0000])
-            ret.extend([0b1110_1101, 0b1011_0000, 0b1000_0000])
-            bytes_created += 6
+            bytes[i] = 0b1110_1101
+            bytes[i+1] = 0b1010_0000
+            bytes[i+2] = 0b1000_0000
+            bytes[i+3] = 0b1110_1101
+            bytes[i+4] = 0b1011_0000
+            bytes[i+5] = 0b1000_0000
 
-    ret.extend([0 for _ in range(length-bytes_created)])
-    return ret
+        i += 10
+
+    return bytearray(bytes)
 
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('chars', choices=['ascii', 'hangul', 'random'], help='Types of code points that should be generated')
+    parser.add_argument('chars', choices=['ascii', 'hangul', '10pct'], help='Types of code points that should be generated')
     parser.add_argument('-o', help='Relative path to output directory', required=True)
     parser.add_argument('-min', default=6, help='Min power of 2 for length')
     parser.add_argument('-max', default=22, help='Max power of 2 for length')
@@ -69,8 +71,8 @@ if __name__ == '__main__':
         generation_fct = generate_random_ascii_sequence
     elif args.chars == 'hangul':
         generation_fct = generate_random_hangul_sequence
-    elif args.chars == 'random':
-        generation_fct = generate_random_random_sequence
+    elif args.chars == '10pct':
+        generation_fct = generate_random_10pct_non_ascii_sequence
     else:
         raise Exception(f'invalid character set: {args.chars}')
 
