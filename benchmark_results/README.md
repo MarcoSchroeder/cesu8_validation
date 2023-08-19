@@ -9,17 +9,22 @@ The argument should be the path to a directory containing 3 files called "scalar
 
 1. Navigate to repo root
 2. `mkdir benchmark_results/<new>`
-3. `cd benchmark_results/<new>`
-4. Run the following benchmarks
+3. Run the following benchmarks
 
-`../../build/cesu8_benchmark_scalar --benchmark_out=scalar.csv --benchmark_out_format=csv`
+`./build/cesu8_benchmark_scalar --benchmark_out=scalar.csv --benchmark_out_format=csv`
 
-`../../build/cesu8_benchmark_sse --benchmark_out=sse.csv --benchmark_out_format=csv`
+`./build/cesu8_benchmark_sse --benchmark_out=sse.csv --benchmark_out_format=csv`
 
-`../../build/cesu8_benchmark_avx --benchmark_out=avx.csv --benchmark_out_format=csv`
+`./build/cesu8_benchmark_avx2 --benchmark_out=avx2.csv --benchmark_out_format=csv`
 
-5. Delete the first 9 lines from the newly created CSV files. They contain CPU info. The first line in the CSV files should be the header row that looks like this:
+`./build/cesu8_benchmark_avx512 --benchmark_out=avx512.csv --benchmark_out_format=csv`
 
-"name,iterations,real_time,cpu_time,time_unit,bytes_per_second,items_per_second,label,error_occurred,error_message"
+4. Move the created CSV files to the new directory `mv *.csv benchmark_results/<new>`
 
-6. Run `cat /proc/cpuinfo` and store the output in a .txt file in the new directory, so we know from which CPU the benchmark came :)
+5. `cd benchmark_results`
+
+6. Postprocess the data `python3 process_csv.py <new> -o <new>/processed_data <--skip512>` (Pass --skip512 if no AVX-512 data available!)
+
+7. Run `cat /proc/cpuinfo > proc_cpuinfo.txt` so we know from which CPU the benchmark came :)
+
+8. Commit changes
