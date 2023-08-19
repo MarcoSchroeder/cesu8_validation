@@ -33,7 +33,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     input_dir_abs_path = os.path.abspath(args.input_dir)
     output_dir_abs_path = os.path.abspath(args.o)
-    process_avx512 = args.skip512
+    process_avx512 = not args.skip512
     if not process_avx512:
         print(f'Skipping AVX-512 results')
     print(f'Absolute path to input directory: "{input_dir_abs_path}"')
