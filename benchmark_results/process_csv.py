@@ -6,15 +6,19 @@ from typing import List
 def read_csv(filepath: str) -> List[List[str]]:
     with open(filepath) as file:
         rows = list(csv.reader(file))
-        return rows[10:]
+        header_index = 0
+        for i, r in enumerate(rows):
+            if r[0] == 'name':
+                header_index = i
+        return rows[header_index+1:]
 
 def extract_cpu_time(data):
     return [row[3] for row in data]
 
 def extract_gb_per_second(data):
-    x = 1_000_000_000
-    ret = [float(row[5])/x for row in data]
-    return ret
+    bytes_per_s = [float(row[5]) for row in data]
+    gb_per_sec = [x/1_000_000_000 for x in bytes_per_s]
+    return gb_per_sec
 
 def calc_speedup(baseline: [str], new: [str]) -> [float]:
     baseline_float = [float(x) for x in baseline]
