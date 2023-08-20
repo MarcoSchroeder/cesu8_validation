@@ -11,8 +11,9 @@ def read_csv(filepath: str) -> List[List[str]]:
 def extract_cpu_time(data):
     return [row[3] for row in data]
 
-def extract_bytes_per_second(data):
-    ret = [row[6] for row in data]
+def extract_gb_per_second(data):
+    x = 1_000_000_000
+    ret = [float(row[5])/x for row in data]
     return ret
 
 def calc_speedup(baseline: [str], new: [str]) -> [float]:
@@ -51,22 +52,22 @@ if __name__ == '__main__':
         avx512_csv = read_csv(os.path.join(input_dir_abs_path, 'avx512.csv'))
 
     # Extract bytes per second
-    scalar_bytes_per_s_ascii = extract_bytes_per_second(scalar_csv[:17])
-    scalar_bytes_per_s_hangul = extract_bytes_per_second(scalar_csv[17:34])
-    scalar_bytes_per_s_random = extract_bytes_per_second(scalar_csv[34:51])
+    scalar_gb_per_sec_ascii = extract_gb_per_second(scalar_csv[:17])
+    scalar_gb_per_sec_hangul = extract_gb_per_second(scalar_csv[17:34])
+    scalar_gb_per_sec_random = extract_gb_per_second(scalar_csv[34:51])
 
-    sse_bytes_per_s_ascii = extract_bytes_per_second(sse_csv[:17])
-    sse_bytes_per_s_hangul = extract_bytes_per_second(sse_csv[17:34])
-    sse_bytes_per_s_random = extract_bytes_per_second(sse_csv[34:51])
+    sse_gb_per_sec_ascii = extract_gb_per_second(sse_csv[:17])
+    sse_gb_per_sec_hangul = extract_gb_per_second(sse_csv[17:34])
+    sse_gb_per_sec_random = extract_gb_per_second(sse_csv[34:51])
 
-    avx2_bytes_per_s_ascii = extract_bytes_per_second(avx2_csv[:17])
-    avx2_bytes_per_s_hangul = extract_bytes_per_second(avx2_csv[17:34])
-    avx2_bytes_per_s_random = extract_bytes_per_second(avx2_csv[34:51])
+    avx2_gb_per_sec_ascii = extract_gb_per_second(avx2_csv[:17])
+    avx2_gb_per_sec_hangul = extract_gb_per_second(avx2_csv[17:34])
+    avx2_gb_per_sec_random = extract_gb_per_second(avx2_csv[34:51])
 
     if process_avx512:
-        avx512_bytes_per_s_ascii = extract_bytes_per_second(avx512_csv[:17])
-        avx512_bytes_per_s_hangul = extract_bytes_per_second(avx512_csv[17:34])
-        avx512_bytes_per_s_random = extract_bytes_per_second(avx512_csv[34:51])
+        avx512_gb_per_sec_ascii = extract_gb_per_second(avx512_csv[:17])
+        avx512_gb_per_sec_hangul = extract_gb_per_second(avx512_csv[17:34])
+        avx512_gb_per_sec_random = extract_gb_per_second(avx512_csv[34:51])
 
     # Extract CPU times
     scalar_cpu_time_ascii = extract_cpu_time(scalar_csv[:17])
@@ -104,53 +105,53 @@ if __name__ == '__main__':
     lengths = [2**i for i in range(6, 23)]
     if process_avx512:
         header_character_type = ['length', 'scalar_cpu_time', 'sse_cpu_time', 'avx2_cpu_time', 'avx512_cpu_time',
-                                'sse_speedup', 'avx2_speedup','avx512_speedup', 'scalar_bytes_per_sec',
-                                'sse_bytes_per_sec', 'avx2_bytes_per_sec', 'avx512_bytes_per_sec']
+                                'sse_speedup', 'avx2_speedup','avx512_speedup', 'scalar_gb_per_sec',
+                                'sse_gb_per_sec', 'avx2_gb_per_sec', 'avx512_gb_per_sec']
         ascii_data = zip(lengths, scalar_cpu_time_ascii, sse_cpu_time_ascii,
                          avx2_cpu_time_ascii, avx512_cpu_time_ascii, sse_speedup_ascii,
-                         avx2_speedup_ascii, avx512_speedup_ascii, scalar_bytes_per_s_ascii,
-                         sse_bytes_per_s_ascii, avx2_bytes_per_s_ascii, avx512_bytes_per_s_ascii)
+                         avx2_speedup_ascii, avx512_speedup_ascii, scalar_gb_per_sec_ascii,
+                         sse_gb_per_sec_ascii, avx2_gb_per_sec_ascii, avx512_gb_per_sec_ascii)
         hangul_data = zip(lengths, scalar_cpu_time_hangul, sse_cpu_time_hangul,
                          avx2_cpu_time_hangul, avx512_cpu_time_hangul, sse_speedup_hangul,
-                         avx2_speedup_hangul, avx512_speedup_hangul, scalar_bytes_per_s_hangul,
-                         sse_bytes_per_s_hangul, avx2_bytes_per_s_hangul, avx512_bytes_per_s_hangul)
+                         avx2_speedup_hangul, avx512_speedup_hangul, scalar_gb_per_sec_hangul,
+                         sse_gb_per_sec_hangul, avx2_gb_per_sec_hangul, avx512_gb_per_sec_hangul)
         random_data = zip(lengths, scalar_cpu_time_random, sse_cpu_time_random,
                          avx2_cpu_time_random, avx512_cpu_time_random, sse_speedup_random,
-                         avx2_speedup_random, avx512_speedup_random, scalar_bytes_per_s_random,
-                         sse_bytes_per_s_random, avx2_bytes_per_s_random, avx512_bytes_per_s_random)
+                         avx2_speedup_random, avx512_speedup_random, scalar_gb_per_sec_random,
+                         sse_gb_per_sec_random, avx2_gb_per_sec_random, avx512_gb_per_sec_random)
     else:
         header_character_type = ['length', 'scalar_cpu_time', 'sse_cpu_time', 'avx2_cpu_time',
-                                'sse_speedup', 'avx2_speedup', 'scalar_bytes_per_sec', 'sse_bytes_per_sec',
-                                'avx2_bytes_per_sec']
+                                'sse_speedup', 'avx2_speedup', 'scalar_gb_per_sec', 'sse_gb_per_sec',
+                                'avx2_gb_per_sec']
         ascii_data = zip(lengths, scalar_cpu_time_ascii, sse_cpu_time_ascii,
                          avx2_cpu_time_ascii, sse_speedup_ascii,
-                         avx2_speedup_ascii, scalar_bytes_per_s_ascii,
-                         sse_bytes_per_s_ascii, avx2_bytes_per_s_ascii)
+                         avx2_speedup_ascii, scalar_gb_per_sec_ascii,
+                         sse_gb_per_sec_ascii, avx2_gb_per_sec_ascii)
         hangul_data = zip(lengths, scalar_cpu_time_hangul, sse_cpu_time_hangul,
                          avx2_cpu_time_hangul, sse_speedup_hangul,
-                         avx2_speedup_hangul, scalar_bytes_per_s_hangul,
-                         sse_bytes_per_s_hangul, avx2_bytes_per_s_hangul)
+                         avx2_speedup_hangul, scalar_gb_per_sec_hangul,
+                         sse_gb_per_sec_hangul, avx2_gb_per_sec_hangul)
         random_data = zip(lengths, scalar_cpu_time_random, sse_cpu_time_random,
                          avx2_cpu_time_random, sse_speedup_random,
-                         avx2_speedup_random, scalar_bytes_per_s_random,
-                         sse_bytes_per_s_random, avx2_bytes_per_s_random)
+                         avx2_speedup_random, scalar_gb_per_sec_random,
+                         sse_gb_per_sec_random, avx2_gb_per_sec_random)
     # Create dataset files per instruction set
     header_instruction_set = ['length', 'ascii_cpu_time', 'hangul_cpu_time', 'random_cpu_time',
-                              'ascii_bytes_per_sec', 'hangul_bytes_per_sec', 'random_bytes_per_sec']
+                              'ascii_gb_per_sec', 'hangul_gb_per_sec', 'random_gb_per_sec']
 
     scalar_data = zip(lengths, scalar_cpu_time_ascii, scalar_cpu_time_hangul,
-                      scalar_cpu_time_random, scalar_bytes_per_s_ascii, scalar_bytes_per_s_hangul,
-                      scalar_bytes_per_s_random)
+                      scalar_cpu_time_random, scalar_gb_per_sec_ascii, scalar_gb_per_sec_hangul,
+                      scalar_gb_per_sec_random)
     sse_data = zip(lengths, sse_cpu_time_ascii, sse_cpu_time_hangul,
-                      sse_cpu_time_random, sse_bytes_per_s_ascii, sse_bytes_per_s_hangul,
-                      sse_bytes_per_s_random)
+                      sse_cpu_time_random, sse_gb_per_sec_ascii, sse_gb_per_sec_hangul,
+                      sse_gb_per_sec_random)
     avx2_data = zip(lengths, avx2_cpu_time_ascii, avx2_cpu_time_hangul,
-                      avx2_cpu_time_random, avx2_bytes_per_s_ascii, avx2_bytes_per_s_hangul,
-                      avx2_bytes_per_s_random)
+                      avx2_cpu_time_random, avx2_gb_per_sec_ascii, avx2_gb_per_sec_hangul,
+                      avx2_gb_per_sec_random)
     if process_avx512:
         avx512_data = zip(lengths, avx512_cpu_time_ascii, avx512_cpu_time_hangul,
-                          avx512_cpu_time_random, avx512_bytes_per_s_ascii,
-                          avx512_bytes_per_s_hangul, avx512_bytes_per_s_random)
+                          avx512_cpu_time_random, avx512_gb_per_sec_ascii,
+                          avx512_gb_per_sec_hangul, avx512_gb_per_sec_random)
 
     # Write output
     if not os.path.exists(output_dir_abs_path):
