@@ -81,7 +81,7 @@ static void BM_random_data(benchmark::State& state)
     int index = state.range(0);
     int len   = state.range(1);
 
-    std::string const& filepath = HANGUL_FILEPATHS[index];
+    std::string const& filepath = RANDOM_FILEPATHS[index];
     std::vector<char>  data     = read_file_as_binary(filepath);
     for (auto _ : state) {
         for (size_t i = 0; i < ITERATIONS; ++i) {
