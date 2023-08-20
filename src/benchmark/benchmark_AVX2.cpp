@@ -17,7 +17,7 @@ static void BM_ascii_data(benchmark::State& state)
         }
     }
 
-    state.SetItemsProcessed(int64_t(state.iterations()) * int64_t(len) * ITERATIONS);
+    state.SetBytesProcessed(int64_t(state.iterations()) * int64_t(len) * ITERATIONS);
 }
 
 BENCHMARK(BM_ascii_data)
@@ -53,7 +53,7 @@ static void BM_hangul_data(benchmark::State& state)
         }
     }
 
-    state.SetItemsProcessed(int64_t(state.iterations()) * int64_t(len) * ITERATIONS);
+    state.SetBytesProcessed(int64_t(state.iterations()) * int64_t(len) * ITERATIONS);
 }
 
 BENCHMARK(BM_hangul_data)
@@ -89,7 +89,7 @@ static void BM_random_data(benchmark::State& state)
         }
     }
 
-    state.SetItemsProcessed(int64_t(state.iterations()) * int64_t(len) * ITERATIONS);
+    state.SetBytesProcessed(int64_t(state.iterations()) * int64_t(len) * ITERATIONS);
 }
 
 BENCHMARK(BM_random_data)

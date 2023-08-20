@@ -12,7 +12,7 @@
 #include <utility>
 #include <vector>
 
-constexpr size_t ITERATIONS = 5000;
+constexpr size_t ITERATIONS = 10000;
 
 std::vector<std::string> const ASCII_FILEPATHS = {
     "benchmark_data/ascii/random_ascii_length_64.cesu8",
