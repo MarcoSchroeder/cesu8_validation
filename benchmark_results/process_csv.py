@@ -12,6 +12,14 @@ def read_csv(filepath: str) -> List[List[str]]:
                 header_index = i
         return rows[header_index+1:]
 
+def extract_rows_per_charset(rows: List[List[str]]):
+    nr = 0
+    for i, r in enumerate(rows):
+        if r[0].find('hangul') != -1:
+            nr = i-1
+    print(f'Rows per charset: {nr}')
+    return nr
+
 def extract_cpu_time(data):
     return [row[3] for row in data]
 
@@ -55,41 +63,43 @@ if __name__ == '__main__':
     if process_avx512:
         avx512_csv = read_csv(os.path.join(input_dir_abs_path, 'avx512.csv'))
 
+    #nr = extract_rows_per_charset(scalar_csv)
+    nr = 15
     # Extract bytes per second
-    scalar_gb_per_sec_ascii = extract_gb_per_second(scalar_csv[:17])
-    scalar_gb_per_sec_hangul = extract_gb_per_second(scalar_csv[17:34])
-    scalar_gb_per_sec_random = extract_gb_per_second(scalar_csv[34:51])
+    scalar_gb_per_sec_ascii = extract_gb_per_second(scalar_csv[:nr])
+    scalar_gb_per_sec_hangul = extract_gb_per_second(scalar_csv[nr:nr*2])
+    scalar_gb_per_sec_random = extract_gb_per_second(scalar_csv[nr*2:nr*3])
 
-    sse_gb_per_sec_ascii = extract_gb_per_second(sse_csv[:17])
-    sse_gb_per_sec_hangul = extract_gb_per_second(sse_csv[17:34])
-    sse_gb_per_sec_random = extract_gb_per_second(sse_csv[34:51])
+    sse_gb_per_sec_ascii = extract_gb_per_second(sse_csv[:nr])
+    sse_gb_per_sec_hangul = extract_gb_per_second(sse_csv[nr:nr*2])
+    sse_gb_per_sec_random = extract_gb_per_second(sse_csv[nr*2:nr*3])
 
-    avx2_gb_per_sec_ascii = extract_gb_per_second(avx2_csv[:17])
-    avx2_gb_per_sec_hangul = extract_gb_per_second(avx2_csv[17:34])
-    avx2_gb_per_sec_random = extract_gb_per_second(avx2_csv[34:51])
+    avx2_gb_per_sec_ascii = extract_gb_per_second(avx2_csv[:nr])
+    avx2_gb_per_sec_hangul = extract_gb_per_second(avx2_csv[nr:nr*2])
+    avx2_gb_per_sec_random = extract_gb_per_second(avx2_csv[nr*2:nr*3])
 
     if process_avx512:
-        avx512_gb_per_sec_ascii = extract_gb_per_second(avx512_csv[:17])
-        avx512_gb_per_sec_hangul = extract_gb_per_second(avx512_csv[17:34])
-        avx512_gb_per_sec_random = extract_gb_per_second(avx512_csv[34:51])
+        avx512_gb_per_sec_ascii = extract_gb_per_second(avx512_csv[:nr])
+        avx512_gb_per_sec_hangul = extract_gb_per_second(avx512_csv[nr:nr*2])
+        avx512_gb_per_sec_random = extract_gb_per_second(avx512_csv[nr*2:nr*3])
 
     # Extract CPU times
-    scalar_cpu_time_ascii = extract_cpu_time(scalar_csv[:17])
-    scalar_cpu_time_hangul = extract_cpu_time(scalar_csv[17:34])
-    scalar_cpu_time_random = extract_cpu_time(scalar_csv[34:51])
+    scalar_cpu_time_ascii = extract_cpu_time(scalar_csv[:nr])
+    scalar_cpu_time_hangul = extract_cpu_time(scalar_csv[nr:nr*2])
+    scalar_cpu_time_random = extract_cpu_time(scalar_csv[nr*2:nr*3])
 
-    sse_cpu_time_ascii = extract_cpu_time(sse_csv[:17])
-    sse_cpu_time_hangul = extract_cpu_time(sse_csv[17:34])
-    sse_cpu_time_random = extract_cpu_time(sse_csv[34:51])
+    sse_cpu_time_ascii = extract_cpu_time(sse_csv[:nr])
+    sse_cpu_time_hangul = extract_cpu_time(sse_csv[nr:nr*2])
+    sse_cpu_time_random = extract_cpu_time(sse_csv[nr*2:nr*3])
 
-    avx2_cpu_time_ascii = extract_cpu_time(avx2_csv[:17])
-    avx2_cpu_time_hangul = extract_cpu_time(avx2_csv[17:34])
-    avx2_cpu_time_random = extract_cpu_time(avx2_csv[34:51])
+    avx2_cpu_time_ascii = extract_cpu_time(avx2_csv[:nr])
+    avx2_cpu_time_hangul = extract_cpu_time(avx2_csv[nr:nr*2])
+    avx2_cpu_time_random = extract_cpu_time(avx2_csv[nr*2:nr*3])
 
     if process_avx512:
-        avx512_cpu_time_ascii = extract_cpu_time(avx512_csv[:17])
-        avx512_cpu_time_hangul = extract_cpu_time(avx512_csv[17:34])
-        avx512_cpu_time_random = extract_cpu_time(avx512_csv[34:51])
+        avx512_cpu_time_ascii = extract_cpu_time(avx512_csv[:nr])
+        avx512_cpu_time_hangul = extract_cpu_time(avx512_csv[nr:nr*2])
+        avx512_cpu_time_random = extract_cpu_time(avx512_csv[nr*2:nr*3])
 
     # Calculate cpu time speedup compared to scalar
     sse_speedup_ascii = calc_speedup(scalar_cpu_time_ascii, sse_cpu_time_ascii)
