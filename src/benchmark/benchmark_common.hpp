@@ -12,7 +12,7 @@
 #include <utility>
 #include <vector>
 
-constexpr size_t ITERATIONS = 10000;
+constexpr size_t ITERATIONS = 100000;
 
 std::vector<std::string> const ASCII_FILEPATHS = {
     "benchmark_data/ascii/random_ascii_length_64.cesu8",
@@ -29,9 +29,7 @@ std::vector<std::string> const ASCII_FILEPATHS = {
     "benchmark_data/ascii/random_ascii_length_131072.cesu8",
     "benchmark_data/ascii/random_ascii_length_262144.cesu8",
     "benchmark_data/ascii/random_ascii_length_524288.cesu8",
-    "benchmark_data/ascii/random_ascii_length_1048576.cesu8",
-    "benchmark_data/ascii/random_ascii_length_2097152.cesu8",
-    "benchmark_data/ascii/random_ascii_length_4194304.cesu8"};
+    "benchmark_data/ascii/random_ascii_length_1048576.cesu8"};
 
 std::vector<std::string> const HANGUL_FILEPATHS = {
     "benchmark_data/hangul/random_hangul_length_64.cesu8",
@@ -48,9 +46,7 @@ std::vector<std::string> const HANGUL_FILEPATHS = {
     "benchmark_data/hangul/random_hangul_length_131072.cesu8",
     "benchmark_data/hangul/random_hangul_length_262144.cesu8",
     "benchmark_data/hangul/random_hangul_length_524288.cesu8",
-    "benchmark_data/hangul/random_hangul_length_1048576.cesu8",
-    "benchmark_data/hangul/random_hangul_length_2097152.cesu8",
-    "benchmark_data/hangul/random_hangul_length_4194304.cesu8"};
+    "benchmark_data/hangul/random_hangul_length_1048576.cesu8"};
 
 std::vector<std::string> const RANDOM_FILEPATHS = {
     "benchmark_data/random/random_random_length_64.cesu8",
@@ -66,10 +62,8 @@ std::vector<std::string> const RANDOM_FILEPATHS = {
     "benchmark_data/random/random_random_length_65536.cesu8",
     "benchmark_data/random/random_random_length_131072.cesu8",
     "benchmark_data/random/random_random_length_262144.cesu8",
-    "benchmark_data/random/random_random_length_524288.cesu8",
-    "benchmark_data/random/random_random_length_1048576.cesu8",
-    "benchmark_data/random/random_random_length_2097152.cesu8",
-    "benchmark_data/random/random_random_length_4194304.cesu8"};
+    "benchmark_data/hangul/random_hangul_length_524288.cesu8",
+    "benchmark_data/hangul/random_hangul_length_1048576.cesu8"};
 
 using byte = unsigned char;
 

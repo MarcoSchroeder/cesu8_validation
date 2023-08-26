@@ -36,8 +36,6 @@ BENCHMARK(BM_ascii_data)
     ->Args({12, 262144})
     ->Args({13, 524288})
     ->Args({14, 1048576})
-    ->Args({15, 2097152})
-    ->Args({16, 4194304})
     ->Unit(benchmark::kMicrosecond);
 
 static void BM_hangul_data(benchmark::State& state)
@@ -72,8 +70,6 @@ BENCHMARK(BM_hangul_data)
     ->Args({12, 262144})
     ->Args({13, 524288})
     ->Args({14, 1048576})
-    ->Args({15, 2097152})
-    ->Args({16, 4194304})
     ->Unit(benchmark::kMicrosecond);
 
 static void BM_random_data(benchmark::State& state)
@@ -108,8 +104,6 @@ BENCHMARK(BM_random_data)
     ->Args({12, 262144})
     ->Args({13, 524288})
     ->Args({14, 1048576})
-    ->Args({15, 2097152})
-    ->Args({16, 4194304})
     ->Unit(benchmark::kMicrosecond);
 
 BENCHMARK_MAIN();

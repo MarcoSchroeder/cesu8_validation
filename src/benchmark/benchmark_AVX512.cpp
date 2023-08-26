@@ -11,6 +11,10 @@ static void BM_ascii_data(benchmark::State& state)
 
     std::string const& filepath = ASCII_FILEPATHS[index];
     std::vector<char>  data     = read_file_as_binary(filepath);
+    // Warmup
+    for (size_t i = 0; i < 100; ++i) {
+        cesu8::is_valid_cesu8_AVX512((byte const*)data.data(), len);
+    }
     for (auto _ : state) {
         for (size_t i = 0; i < ITERATIONS; ++i) {
             cesu8::is_valid_cesu8_AVX512((byte const*)data.data(), len);
@@ -36,8 +40,6 @@ BENCHMARK(BM_ascii_data)
     ->Args({12, 262144})
     ->Args({13, 524288})
     ->Args({14, 1048576})
-    ->Args({15, 2097152})
-    ->Args({16, 4194304})
     ->Unit(benchmark::kMicrosecond);
 
 static void BM_hangul_data(benchmark::State& state)
@@ -47,6 +49,10 @@ static void BM_hangul_data(benchmark::State& state)
 
     std::string const& filepath = HANGUL_FILEPATHS[index];
     std::vector<char>  data     = read_file_as_binary(filepath);
+    // Warmup
+    for (size_t i = 0; i < 100; ++i) {
+        cesu8::is_valid_cesu8_AVX512((byte const*)data.data(), len);
+    }
     for (auto _ : state) {
         for (size_t i = 0; i < ITERATIONS; ++i) {
             cesu8::is_valid_cesu8_AVX512((byte const*)data.data(), len);
@@ -72,8 +78,6 @@ BENCHMARK(BM_hangul_data)
     ->Args({12, 262144})
     ->Args({13, 524288})
     ->Args({14, 1048576})
-    ->Args({15, 2097152})
-    ->Args({16, 4194304})
     ->Unit(benchmark::kMicrosecond);
 
 static void BM_random_data(benchmark::State& state)
@@ -83,6 +87,10 @@ static void BM_random_data(benchmark::State& state)
 
     std::string const& filepath = RANDOM_FILEPATHS[index];
     std::vector<char>  data     = read_file_as_binary(filepath);
+    // Warmup
+    for (size_t i = 0; i < 100; ++i) {
+        cesu8::is_valid_cesu8_AVX512((byte const*)data.data(), len);
+    }
     for (auto _ : state) {
         for (size_t i = 0; i < ITERATIONS; ++i) {
             cesu8::is_valid_cesu8_AVX512((byte const*)data.data(), len);
@@ -108,8 +116,6 @@ BENCHMARK(BM_random_data)
     ->Args({12, 262144})
     ->Args({13, 524288})
     ->Args({14, 1048576})
-    ->Args({15, 2097152})
-    ->Args({16, 4194304})
     ->Unit(benchmark::kMicrosecond);
 
 BENCHMARK_MAIN();
