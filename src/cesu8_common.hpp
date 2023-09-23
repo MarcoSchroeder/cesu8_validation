@@ -17,29 +17,29 @@ namespace cesu8::impl {
 
 using byte = unsigned char;
 
-constexpr bool is_c1(byte b) { return (b & 0x80) == 0; }
-constexpr bool is_c2(byte b) { return (b & 0xE0) == 0xC0; }
-constexpr bool is_c3(byte b) { return (b & 0xF0) == 0xE0; }
+constexpr bool is_cu1(byte b) { return (b & 0x80) == 0; }
+constexpr bool is_cu2(byte b) { return (b & 0xE0) == 0xC0; }
+constexpr bool is_cu3(byte b) { return (b & 0xF0) == 0xE0; }
 constexpr bool is_cb(byte b) { return (b & 0xC0) == 0x80; }
 
-constexpr bool is_overlong_c2_cb(byte c2) { return c2 <= 0xC1; }
-constexpr bool is_overlong_c3_cb_cb(byte c3, byte cb)
+constexpr bool is_overlong_cu2_cb(byte c2) { return c2 <= 0xC1; }
+constexpr bool is_overlong_cu3_cb_cb(byte c3, byte cb)
 {
     return (c3 == 0xE0) && (cb <= 0x9F);
 }
 
-constexpr bool is_ed(byte b) { return b == 0xED; }
-constexpr bool is_a_or_b(byte b) { return (b & 0xE0) == 0xA0; }
-constexpr bool is_ed_a(byte b1, byte b2) { return is_ed(b1) && ((b2 & 0xF0) == 0xA0); }
+constexpr bool is_sp(byte b) { return b == 0xED; }
+constexpr bool is_hi_or_lo(byte b) { return (b & 0xE0) == 0xA0; }
+constexpr bool is_sp_hi(byte b1, byte b2) { return is_sp(b1) && ((b2 & 0xF0) == 0xA0); }
 
-constexpr bool is_ed_a_cb(byte b1, byte b2, byte b3)
+constexpr bool is_sp_hi_cb(byte b1, byte b2, byte b3)
 {
-    return is_ed_a(b1, b2) && is_cb(b3);
+    return is_sp_hi(b1, b2) && is_cb(b3);
 }
 
-constexpr bool is_ed_b_cb(byte b1, byte b2, byte b3)
+constexpr bool is_sp_lo_cb(byte b1, byte b2, byte b3)
 {
-    return is_ed(b1) && ((b2 & 0xF0) == 0xB0) && (is_cb(b3));
+    return is_sp(b1) && ((b2 & 0xF0) == 0xB0) && (is_cb(b3));
 }
 
 } // namespace cesu8::impl

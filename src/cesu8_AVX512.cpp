@@ -107,16 +107,16 @@ bool is_valid_cesu8_AVX512(byte const* str, std::size_t len)
 
     // Value error must not be considered only structural as we start revalidation anyways
     size_t offset = 0;
-    if (is_ed_a_cb(str[-5], str[-4], str[-3])) {
+    if (is_sp_hi_cb(str[-5], str[-4], str[-3])) {
         offset = 5;
     }
-    else if (is_ed_a_cb(str[-4], str[-3], str[-2])) {
+    else if (is_sp_hi_cb(str[-4], str[-3], str[-2])) {
         offset = 4;
     }
-    else if (is_ed_a_cb(str[-3], str[-2], str[-1])) {
+    else if (is_sp_hi_cb(str[-3], str[-2], str[-1])) {
         offset = 3;
     }
-    else if (is_c3(str[-2])) { // Checks surrogate pair as well
+    else if (is_cu3(str[-2])) { // Checks surrogate pair as well
         offset = 2;
     }
     else if ((str[-1] & 0xC0) == 0xC0) { // Checks 2 and 3 byte header

@@ -9,58 +9,58 @@ bool is_valid_cesu8_scalar(byte const* str, std::size_t len)
 {
     while (len > 0) {
         // 1-unit encoded code point
-        if (is_c1(*str)) {
+        if (is_cu1(*str)) {
             ++str;
             --len;
         }
         // 2-unit encoded code point
-        else if (is_c2(*str)) {
+        else if (is_cu2(*str)) {
             if (len < 2) {
                 return false;
             }
             if (!is_cb(str[1])) {
                 return false;
             }
-            if (is_overlong_c2_cb(*str)) {
+            if (is_overlong_cu2_cb(*str)) {
                 return false;
             }
             str += 2;
             len -= 2;
         }
-        else if (is_c3(*str)) {
+        else if (is_cu3(*str)) {
             if (len < 3) {
                 return false;
             }
             // 3-unit encoded code point
-            if (!is_ed(*str) || !is_a_or_b(str[1])) {
+            if (!is_sp(*str) || !is_hi_or_lo(str[1])) {
                 if (!is_cb(str[1])) {
                     return false;
                 }
                 if (!is_cb(str[2])) {
                     return false;
                 }
-                if (is_overlong_c3_cb_cb(*str, str[1])) {
+                if (is_overlong_cu3_cb_cb(*str, str[1])) {
                     return false;
                 }
                 str += 3;
                 len -= 3;
             }
             // Surrogate pair
-            else if (is_ed_a(*str, str[1])) {
+            else if (is_sp_hi(*str, str[1])) {
                 if (len < 6) {
                     return false;
                 }
                 if (!is_cb(str[2])) {
                     return false;
                 }
-                // Trailing surrogate
-                if (!is_ed_b_cb(str[3], str[4], str[5])) {
+                // Low surrogate
+                if (!is_sp_lo_cb(str[3], str[4], str[5])) {
                     return false;
                 }
                 str += 6;
                 len -= 6;
             }
-            else { // Must be lone trailing surrogate
+            else { // Must be lone low surrogate
                 return false;
             }
         }

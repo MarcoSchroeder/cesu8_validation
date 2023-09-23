@@ -235,7 +235,7 @@ TEST(Cesu8Validation_AVX512, IncompleteSurrogate)
     and not considered here.
     */
     {
-        // Leading surrogate missing
+        // High surrogate missing
         unsigned char in_iteration[64];
         memset(in_iteration, Cesu8::ASCII_BYTE, 64);
         in_iteration[8]  = Cesu8::SURROGATE_BYTE4;
@@ -258,7 +258,7 @@ TEST(Cesu8Validation_AVX512, IncompleteSurrogate)
         EXPECT_FALSE(cesu8::is_valid_cesu8_AVX512(remainder, 70));
     }
     {
-        // Trailing surrogate missing
+        // Low surrogate missing
         unsigned char in_iteration[64];
         memset(in_iteration, Cesu8::ASCII_BYTE, 64);
         in_iteration[5] = Cesu8::SURROGATE_BYTE1;

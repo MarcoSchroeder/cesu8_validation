@@ -154,7 +154,7 @@ bool is_valid_cesu8_AVX2(byte const* str, std::size_t len)
     else if (hi_surrogates == (1u << 31)) {
         offset = 3;
     }
-    else if (is_c3(str[-2])) { // Checks surrogate pair as well
+    else if (is_cu3(str[-2])) { // Checks surrogate pair as well
         offset = 2;
     }
     else if ((str[-1] & 0xC0) == 0xC0) { // Checks 2 and 3 byte header
