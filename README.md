@@ -1,4 +1,7 @@
 # cesu8_validation
+Software ingesting textual data, such as database systems, frequently validates the encoding of this data. The Unicode extension “Compatibility Encoding Scheme for UTF-16: 8-bit” (CESU-8) is an encoding scheme that combines the ASCII compatibility of UTF-8 with the binary order of UTF-16. Validation algorithms can impede performance when large quantities of text are consumed. CPU architectures such as x86, ARM, and PowerPC, implement hardware support for data-parallelism that can overcome such bottlenecks. We propose a novel algorithm validating CESU-8 encoded text utilising single-instruction multiple-data (SIMD) instructions. We generate an artificial dataset containing ASCII, Hangul (Korean), and randomly chosen text and demonstrate that our implementation outperforms conventional validation algorithms by a factor of seven in gigabyte throughput. To facilitate transparency, our implementation and benchmark results are publicly available.
+
+Link to publication: https://dl.acm.org/doi/abs/10.1145/3651781.3651797
 ## Setup 
 1. Clone repo
 2. Configure cmake project `cmake -S . -B build` (from repo root)
